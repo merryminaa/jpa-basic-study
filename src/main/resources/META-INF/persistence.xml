@@ -13,7 +13,8 @@
             <!-- 옵션 -->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.use_sql_comments" value="true"/> <!-- 쿼리에 대한 설명 추가 옵션 -->
+            <property name="hibernate.use_sql_comments" value="true"/> <!-- 쿼리에 대한 설명 추가 -->
+            <property name="hibernate.jdbc.batch_size" value="10"/> <!-- 한꺼번에 가능한 쿼리 갯수 지정 -->
             <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
         </properties>
     </persistence-unit>
