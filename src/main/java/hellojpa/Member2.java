@@ -1,20 +1,23 @@
 package hellojpa;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
-public class Member {
+public class Member2 {
 
     @Id
     private Long id;
 
-    @Column(name = "name")
+    @Column(unique = true, length = 10)
     private String name;
+    private  int age;
 
-    public Member() {}
+    //기본 생성자 필요
+    public Member2() {}
 
-    public Member(Long id, String name) {
+    public Member2(Long id, String name) {
         this.id = id;
         this.name = name;
     }
