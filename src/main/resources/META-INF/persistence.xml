@@ -15,7 +15,7 @@
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/> <!-- 쿼리에 대한 설명 추가 -->
             <property name="hibernate.jdbc.batch_size" value="10"/> <!-- 한꺼번에 가능한 쿼리 갯수 지정 -->
-            <property name="hibernate.hbm2ddl.auto" value="update" /> <!-- 애플리케이션 로딩시점에 데이터베이스 자동 생성 -->
+            <property name="hibernate.hbm2ddl.auto" value="create"/> <!-- 애플리케이션 로딩시점에 데이터베이스 자동 생성 -->
         </properties>
     </persistence-unit>
 </persistence>
