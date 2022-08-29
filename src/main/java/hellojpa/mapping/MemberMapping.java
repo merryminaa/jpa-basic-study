@@ -13,8 +13,13 @@ public class MemberMapping {
     @Column(name = "USERNAME")
     private String username;
 
-    @Column(name = "TEAM_ID")
-    private Long teamId;
+//    @ManyToOne 디폴트값은 FetchType.EAGER(한꺼번에 쿼리)
+    @ManyToOne(fetch = FetchType.LAZY) //쿼리 분리
+    @JoinColumn(name = "TEAM_ID")
+    private TeamMapping team;
+
+//    @Column(name = "TEAM_ID")
+//    private Long teamId;
 
     public Long getId() {
         return id;
@@ -32,11 +37,18 @@ public class MemberMapping {
         this.username = username;
     }
 
-    public Long getTeamId() {
-        return teamId;
+    public TeamMapping getTeam() {
+        return team;
     }
 
-    public void setTeamId(Long teamId) {
-        this.teamId = teamId;
+    public void setTeam(TeamMapping team) {
+        this.team = team;
     }
+//    public Long getTeamId() {
+//        return teamId;
+//    }
+//
+//    public void setTeamId(Long teamId) {
+//        this.teamId = teamId;
+//    }
 }
