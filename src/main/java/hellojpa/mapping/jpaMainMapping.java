@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class jpaMainMapping {
     public static void main(String[] args) {
@@ -32,8 +33,15 @@ public class jpaMainMapping {
 
             //조회
             MemberMapping findMember = em.find(MemberMapping.class, member.getId());
-            TeamMapping findTeam = findMember.getTeam();
-            System.out.println("findTeam =  " + findTeam.getName());
+            List<MemberMapping> members = findMember.getTeam().getMembers();
+
+            for (MemberMapping memberMapping : members) {
+                System.out.println("m = " + member.getUsername());
+            }
+
+
+//            TeamMapping findTeam = findMember.getTeam();
+//            System.out.println("findTeam =  " + findTeam.getName());
 
             //아래의 경우 연관관계가 없음(객체지향적인 방식이 아님)
             //데이터베이스에서의 외래키와 객체의 참조는 패러다임이 완전 다름
@@ -41,8 +49,8 @@ public class jpaMainMapping {
 //            TeamMapping findTeam = em.find(TeamMapping.class, findTeamId);
 
             //수정
-            TeamMapping newTeam = em.find(TeamMapping.class, 100L);
-            findMember.setTeam(newTeam);
+//            TeamMapping newTeam = em.find(TeamMapping.class, 100L);
+//            findMember.setTeam(newTeam);
 
             tx.commit();
         } catch (Exception e) {
