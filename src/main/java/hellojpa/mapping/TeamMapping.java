@@ -25,6 +25,11 @@ public class TeamMapping {
         this.members = members;
     }
 
+    public void addMember(MemberMapping member) {
+        member.setTeam(this);
+        members.add(member);
+    }
+
     public Long getId() {
         return id;
     }
@@ -40,4 +45,6 @@ public class TeamMapping {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }

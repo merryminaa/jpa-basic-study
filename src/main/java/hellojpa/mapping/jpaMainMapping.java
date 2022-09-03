@@ -22,8 +22,12 @@ public class jpaMainMapping {
 
             MemberMapping member = new MemberMapping();
             member.setUsername("member1");
-            member.setTeam(team); //jpa가 알아서 team의 PK를 꺼내서 member의 외래키에 세팅해줌
-//            member.setTeamId(team.getId()); //외래키 식별자를 직접 다룸
+            //jpa가 알아서 team의 PK를 꺼내서 member의 외래키에 세팅해줌
+            //양방향 맵핑시 주의점: 반드시 연관관계의 주인쪽에 값을 입력
+//            member.changeTeam (team); //** 주인쪽 값 입력 => 연관관계 편의 메소드
+
+            //객체 관점에서 생각하면 역방향에도 값을 입력
+            team.addMember(member);//** 역방향 값 입력 => 연관관계 편의 메소드
             em.persist(member);
 
             //아래 조회의 경우 이미 위에서 persist하면서 영속성 컨텍스트 안에 가지고 있기 때문에 DB 쿼리 미실행(1차캐시 사용)
@@ -38,7 +42,6 @@ public class jpaMainMapping {
             for (MemberMapping memberMapping : members) {
                 System.out.println("m = " + member.getUsername());
             }
-
 
 //            TeamMapping findTeam = findMember.getTeam();
 //            System.out.println("findTeam =  " + findTeam.getName());

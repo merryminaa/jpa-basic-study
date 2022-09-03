@@ -44,6 +44,15 @@ public class MemberMapping {
     public void setTeam(TeamMapping team) {
         this.team = team;
     }
+
+//    public void changeTeam(TeamMapping team) {
+//        this.team = team;
+//        team.getMembers().add(this); 
+//        //연관관계 편의 메소드(일반 getter,setter와 구분되게 로직이 들어갔으므로 이름도 변경)
+//        //생성 시점에 역방향에도 값을 입력
+    //만약 연관관계 편의 메소드가 양쪽에 다 있을 경우 한쪽은 지우기
+//    }
+
 //    public Long getTeamId() {
 //        return teamId;
 //    }
