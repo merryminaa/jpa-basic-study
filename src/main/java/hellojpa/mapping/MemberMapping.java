@@ -18,6 +18,10 @@ public class MemberMapping {
     @JoinColumn(name = "TEAM_ID")
     private TeamMapping team;
 
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")
+    private Locker locker;
+
 //    @Column(name = "TEAM_ID")
 //    private Long teamId;
 
@@ -44,6 +48,7 @@ public class MemberMapping {
     public void setTeam(TeamMapping team) {
         this.team = team;
     }
+
 
 //    public void changeTeam(TeamMapping team) {
 //        this.team = team;
