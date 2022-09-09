@@ -1,6 +1,8 @@
 package hellojpa.mapping;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class MemberMapping {
@@ -21,6 +23,9 @@ public class MemberMapping {
     @OneToOne
     @JoinColumn(name = "LOCKER_ID")
     private Locker locker;
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberProduct> memberProductList = new ArrayList<>();
 
 //    @Column(name = "TEAM_ID")
 //    private Long teamId;
