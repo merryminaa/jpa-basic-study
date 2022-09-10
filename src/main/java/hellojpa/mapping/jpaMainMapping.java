@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class jpaMainMapping {
@@ -22,6 +23,8 @@ public class jpaMainMapping {
 
             MemberMapping member = new MemberMapping();
             member.setUsername("member1");
+            member.setCreatedAt(LocalDateTime.now()); //baseEntity 값 사용
+            member.setCreatedBy("kim");
             //jpa가 알아서 team의 PK를 꺼내서 member의 외래키에 세팅해줌
             //양방향 맵핑시 주의점: 반드시 연관관계의 주인쪽에 값을 입력
 //            member.changeTeam (team); //** 주인쪽 값 입력 => 연관관계 편의 메소드

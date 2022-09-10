@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class MemberMapping {
+public class MemberMapping extends BaseEntity {
 
     @Id
     @GeneratedValue

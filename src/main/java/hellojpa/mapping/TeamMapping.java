@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class TeamMapping {
+public class TeamMapping extends BaseEntity {
 
     @Id
     @GeneratedValue
