@@ -1,9 +1,8 @@
 package hellojpa.mapping;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import org.hibernate.Hibernate;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,51 +15,25 @@ public class jpaMainMapping {
 
         try {
 
-            //저장
-            TeamMapping team = new TeamMapping();
-            team.setName("teamA");
-            em.persist(team);
+            MemberMapping member1 = new MemberMapping();
+            member1.setUsername("hello");
+            em.persist(member1);
 
-            MemberMapping member = new MemberMapping();
-            member.setUsername("member1");
-            member.setCreatedAt(LocalDateTime.now()); //baseEntity 값 사용
-            member.setCreatedBy("kim");
-            //jpa가 알아서 team의 PK를 꺼내서 member의 외래키에 세팅해줌
-            //양방향 맵핑시 주의점: 반드시 연관관계의 주인쪽에 값을 입력
-//            member.changeTeam (team); //** 주인쪽 값 입력 => 연관관계 편의 메소드
+            em.flush();
+            em.clear();
 
-            //객체 관점에서 생각하면 역방향에도 값을 입력
-            team.addMember(member);//** 역방향 값 입력 => 연관관계 편의 메소드
-            em.persist(member);
+            MemberMapping refMember = em.getReference(MemberMapping.class, member1.getId()); //영속성 컨텍스트에 올라감
+            System.out.println("refMember = " + refMember.getClass()); //proxy
 
-            //아래 조회의 경우 이미 위에서 persist하면서 영속성 컨텍스트 안에 가지고 있기 때문에 DB 쿼리 미실행(1차캐시 사용)
-            //만약 조회 쿼리도 확인하고 싶다면?
-            em.flush(); //쌓여있던 쿼리 한꺼번에 실행
-            em.clear(); //전체 초기화
-
-            //조회
-            MemberMapping findMember = em.find(MemberMapping.class, member.getId());
-            List<MemberMapping> members = findMember.getTeam().getMembers();
-
-            for (MemberMapping memberMapping : members) {
-                System.out.println("m = " + member.getUsername());
-            }
-
-//            TeamMapping findTeam = findMember.getTeam();
-//            System.out.println("findTeam =  " + findTeam.getName());
-
-            //아래의 경우 연관관계가 없음(객체지향적인 방식이 아님)
-            //데이터베이스에서의 외래키와 객체의 참조는 패러다임이 완전 다름
-//            Long findTeamId = findMember.getTeamId();
-//            TeamMapping findTeam = em.find(TeamMapping.class, findTeamId);
-
-            //수정
-//            TeamMapping newTeam = em.find(TeamMapping.class, 100L);
-//            findMember.setTeam(newTeam);
+            System.out.println("isLoaded1 = " + emf.getPersistenceUnitUtil().isLoaded(refMember)); //false
+//            refMember.getUsername(); //사실상 강제 초기화
+            Hibernate.initialize(refMember); //하이버네이트가 제공하는 강제 초기화 메소드
+            System.out.println("isLoaded2 = " + emf.getPersistenceUnitUtil().isLoaded(refMember)); //true
 
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
+            e.printStackTrace();
         } finally {
             em.close();
         }

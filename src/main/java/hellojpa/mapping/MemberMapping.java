@@ -16,7 +16,8 @@ public class MemberMapping extends BaseEntity {
     private String username;
 
 //    @ManyToOne 디폴트값은 FetchType.EAGER(한꺼번에 쿼리)
-    @ManyToOne(fetch = FetchType.LAZY) //쿼리 분리
+//    @ManyToOne(fetch = FetchType.LAZY) //쿼리 분리
+    @ManyToOne
     @JoinColumn(name = "TEAM_ID")
     private TeamMapping team;
 
