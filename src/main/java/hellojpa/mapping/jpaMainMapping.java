@@ -14,21 +14,23 @@ public class jpaMainMapping {
         tx.begin();
 
         try {
+            TeamMapping team = new TeamMapping();
+            team.setName("teamA");
+            em.persist(team);
 
             MemberMapping member1 = new MemberMapping();
             member1.setUsername("hello");
+            member1.setTeam(team);
             em.persist(member1);
 
             em.flush();
             em.clear();
 
-            MemberMapping refMember = em.getReference(MemberMapping.class, member1.getId()); //영속성 컨텍스트에 올라감
-            System.out.println("refMember = " + refMember.getClass()); //proxy
-
-            System.out.println("isLoaded1 = " + emf.getPersistenceUnitUtil().isLoaded(refMember)); //false
-//            refMember.getUsername(); //사실상 강제 초기화
-            Hibernate.initialize(refMember); //하이버네이트가 제공하는 강제 초기화 메소드
-            System.out.println("isLoaded2 = " + emf.getPersistenceUnitUtil().isLoaded(refMember)); //true
+            MemberMapping m = em.find(MemberMapping.class, member1.getId()); //영속성 컨텍스트에 올라감
+            System.out.println("m = " + m.getTeam().getClass()); //proxy
+            System.out.println("==============");
+            m.getTeam().getName(); //이 시점에 team 조회 쿼리
+            System.out.println("==============");
 
             tx.commit();
         } catch (Exception e) {
