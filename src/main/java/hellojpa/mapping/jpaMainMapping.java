@@ -14,23 +14,27 @@ public class jpaMainMapping {
         tx.begin();
 
         try {
-            TeamMapping team = new TeamMapping();
-            team.setName("teamA");
-            em.persist(team);
 
-            MemberMapping member1 = new MemberMapping();
-            member1.setUsername("hello");
-            member1.setTeam(team);
-            em.persist(member1);
+            Address address = new Address("Seoul", "star-ro","1000");
 
-            em.flush();
-            em.clear();
+            MemberMapping member = new MemberMapping();
+            member.setUsername("member1");
+            member.setHomeAddress(address);
+            em.persist(member);
 
-            MemberMapping m = em.find(MemberMapping.class, member1.getId()); //영속성 컨텍스트에 올라감
-            System.out.println("m = " + m.getTeam().getClass()); //proxy
-            System.out.println("==============");
-            m.getTeam().getName(); //이 시점에 team 조회 쿼리
-            System.out.println("==============");
+
+            //값만 복사하여 새로 생성
+            Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+            MemberMapping member2 = new MemberMapping();
+            member2.setUsername("member2");
+            member2.setHomeAddress(copyAddress);
+            em.persist(member2);
+
+//            member.getHomeAddress().setCity("newCity");
+            //불변객체로 만들었으므로 setter 사용 불가
+            //만약 변경하고 싶다면? 새로 생성하여 세팅
+            Address newAddress = new Address("new city", address.getStreet(), address.getZipcode());
+            member.setHomeAddress(newAddress);
 
             tx.commit();
         } catch (Exception e) {
