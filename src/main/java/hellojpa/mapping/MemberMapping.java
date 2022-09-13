@@ -2,9 +2,7 @@ package hellojpa.mapping;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Entity
 public class MemberMapping extends BaseEntity {
@@ -24,6 +22,23 @@ public class MemberMapping extends BaseEntity {
     //임베디드타입 Address
     @Embedded
     private Address homeAddress;
+
+    //값타입 컬렉션
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    @Column(name = "FOOD_NAME")
+    private Set<String> favoriteFoods = new HashSet<>();
+
+//값타입 컬렉션
+//    @ElementCollection
+//    @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+//    private List<Address> addressHistory = new ArrayList<>();
+
+
+    //값타입 컬렉션 => 엔티티 생성해서 일대다 관계로 변경
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true  )
+    @JoinColumn(name = "MEMBER_ID")
+    private List<AddressEntity> addressHistory = new ArrayList<>();
 
     //한 엔티티에 안에서 같은 값 타입을 사용하면 컬럼명이 중복되므로 @AttributeOverrides, @AttributeOverride로 컬럼명 속성 재정의
     @Embedded
@@ -83,6 +98,22 @@ public class MemberMapping extends BaseEntity {
 
     public void setHomeAddress(Address homeAddress) {
         this.homeAddress = homeAddress;
+    }
+
+    public Set<String> getFavoriteFoods() {
+        return favoriteFoods;
+    }
+
+    public void setFavoriteFoods(Set<String> favoriteFoods) {
+        this.favoriteFoods = favoriteFoods;
+    }
+
+    public List<AddressEntity> getAddressHistory() {
+        return addressHistory;
+    }
+
+    public void setAddressHistory(List<AddressEntity> addressHistory) {
+        this.addressHistory = addressHistory;
     }
 
     //    public void changeTeam(TeamMapping team) {
