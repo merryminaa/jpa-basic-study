@@ -24,6 +24,8 @@ public class jpaMain {
 
             //각각 persist하지 않아도 parent cascade를 all로 설정하면 연관된 child도 영속상태가 됨
             em.persist(parent);
+            //em.persist(child1);
+            //em.persist(child2);
 
             em.flush();
             em.clear();
